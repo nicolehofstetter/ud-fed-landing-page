@@ -7,15 +7,18 @@ const sections = document.getElementsByTagName('section');
 /**
  * Creates a new li element for the navigation bar
  * @param text: text for menu link
- * @param sectionId: Id of the element to which the menu link should reference
+ * @param section: Id of the element to which the menu link should reference
  * @returns {HTMLLIElement}: list item for navbar
  */
-function createNewNavbarItem(text, sectionId) {
+function createNewNavbarItem(text, section) {
     const navbarItem = document.createElement('li');
     let menuLink = document.createElement('a');
     menuLink.classList.add('menu__link');
     menuLink.innerHTML = text;
-    menuLink.href = '#' + sectionId;
+    menuLink.addEventListener('click', (event) => {
+        event.preventDefault();
+        section.scrollIntoView({behavior: 'smooth'});
+    });
     navbarItem.append(menuLink);
     return navbarItem;
 }
@@ -33,9 +36,8 @@ function buildNavigationBar() {
 
     for (const section of sections) {
         const menuLinkText = section.getAttribute('data-nav');
-        const sectionId = section.getAttribute('id');
 
-        const navbarItem = createNewNavbarItem(menuLinkText, sectionId);
+        const navbarItem = createNewNavbarItem(menuLinkText, section);
 
         navbarItems.appendChild(navbarItem);
     }
