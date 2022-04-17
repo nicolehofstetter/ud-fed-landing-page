@@ -14,6 +14,7 @@ function createNewNavbarItem(text, section) {
     const navbarItem = document.createElement('li');
     let menuLink = document.createElement('a');
     menuLink.classList.add('menu__link');
+    menuLink.classList.add(section.id);
     menuLink.innerHTML = text;
     menuLink.addEventListener('click', (event) => {
         event.preventDefault();
@@ -21,6 +22,31 @@ function createNewNavbarItem(text, section) {
     });
     navbarItem.append(menuLink);
     return navbarItem;
+}
+
+/**
+ * Removes class active from element by given selector
+ * @param selectors
+ */
+function removeActiveFromElementBy(selectors) {
+    let activeMenuLink = document.querySelector(selectors);
+    if (activeMenuLink) {
+        activeMenuLink.classList.remove('active');
+    }
+}
+
+/**
+ * Return section that is currently in top of viewport
+ * @returns {HTMLElement}
+ */
+function getActiveSection() {
+    for (const section of sections) {
+        let sectionBox = section.getBoundingClientRect();
+
+        if (sectionBox.top > 0) {
+            return section;
+        }
+    }
 }
 
 /**
@@ -49,23 +75,14 @@ function buildNavigationBar() {
  * Sets current section to active, so that it is highlighted and can be distinguished in view
  */
 function setCurrentSectionToActive() {
-    let currentSectionId;
-    for (const section of sections) {
-        let positionOfSection = section.getBoundingClientRect();
+    removeActiveFromElementBy('a.active');
+    removeActiveFromElementBy('section.active');
 
-        if (positionOfSection.y > 0) {
-            currentSectionId = section.id;
-            break;
-        }
-    }
+    let currentSection = getActiveSection();
+    currentSection.classList.add('active');
 
-    for (const section of sections) {
-        if (section.id === currentSectionId) {
-            section.classList.add('active');
-        } else {
-            section.classList.remove('active');
-        }
-    }
+    let menuLinkToCurrentSection = document.querySelector('.' + currentSection.id);
+    menuLinkToCurrentSection.classList.add('active');
 }
 
 /**
