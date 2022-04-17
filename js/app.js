@@ -22,7 +22,7 @@
  * Define Global Variables
  *
  */
-
+const sections = document.getElementsByTagName("section");
 
 /**
  * End Global Variables
@@ -31,12 +31,12 @@
  */
 
 
-function createNewNavbarItem(text, anchorId) {
+function createNewNavbarItem(text, sectionId) {
     let navbarItem = document.createElement("li");
     let menuLink = document.createElement("a");
-    menuLink.className = "menu__link"
+    menuLink.classList.add("menu__link");
     menuLink.innerHTML = text
-    menuLink.href = "#" + anchorId
+    menuLink.href = "#" + sectionId
     navbarItem.append(menuLink)
     return navbarItem;
 }
@@ -49,21 +49,19 @@ function createNewNavbarItem(text, anchorId) {
 
 // build the nav
 function buildNavigationBar() {
-    const sections = document.getElementsByTagName("section");
-
     const navbarList = document.getElementById("navbar__list");
     const navbarItems = document.createDocumentFragment();
 
     for (const section of sections) {
         const menuLinkText = section.getAttribute("data-nav");
-        const anchorIdForMenuLink = section.getAttribute("id");
+        const sectionId = section.getAttribute("id");
 
-        const navbarItem = createNewNavbarItem(menuLinkText, anchorIdForMenuLink);
+        const navbarItem = createNewNavbarItem(menuLinkText, sectionId);
 
-        navbarItems.appendChild(navbarItem)
+        navbarItems.appendChild(navbarItem);
     }
 
-    navbarList.append(navbarItems)
+    navbarList.append(navbarItems);
 }
 
 
