@@ -1,71 +1,39 @@
+const sections = document.getElementsByTagName('section');
+
 /**
- *
- * Manipulating the DOM exercise.
- * Exercise programmatically builds navigation,
- * scrolls to anchors from navigation,
- * and highlights section in viewport upon scrolling.
- *
- * Dependencies: None
- *
- * JS Version: ES2015/ES6
- *
- * JS Standard: ESlint
- *
+ * Helper functions
  */
 
 /**
- * Comments should be present at the beginning of each procedure and class.
- * Great to have comments before crucial code sections within the procedure.
+ * Creates a new li element for the navigation bar
+ * @param text: text for menu link
+ * @param sectionId: Id of the element to which the menu link should reference
+ * @returns {HTMLLIElement}: list item for navbar
  */
-
-/**
- * Define Global Variables
- *
- */
-const sections = document.getElementsByTagName("section");
-
-/**
- * End Global Variables
- * Start Helper Functions
- *
- */
-
-
 function createNewNavbarItem(text, sectionId) {
-    let navbarItem = document.createElement("li");
-    let menuLink = document.createElement("a");
-    menuLink.classList.add("menu__link");
-    menuLink.innerHTML = text
-    menuLink.href = "#" + sectionId
-    navbarItem.append(menuLink)
+    const navbarItem = document.createElement('li');
+    let menuLink = document.createElement('a');
+    menuLink.classList.add('menu__link');
+    menuLink.innerHTML = text;
+    menuLink.href = '#' + sectionId;
+    navbarItem.append(menuLink);
     return navbarItem;
 }
 
-function getCurrentSectionId() {
-    let activeSectionId;
-    for (const section of sections) {
-        let positionOfSection = section.getBoundingClientRect();
-
-        if(positionOfSection.y > 0 ){
-            activeSectionId = section.id;
-            return activeSectionId;
-        }
-    }
-}
 /**
- * End Helper Functions
- * Begin Main Functions
- *
+ * Main functions
  */
 
-// build the nav
+/**
+ * Build the navigation bar based on the section of the page
+ */
 function buildNavigationBar() {
-    const navbarList = document.getElementById("navbar__list");
+    const navbarList = document.getElementById('navbar__list');
     const navbarItems = document.createDocumentFragment();
 
     for (const section of sections) {
-        const menuLinkText = section.getAttribute("data-nav");
-        const sectionId = section.getAttribute("id");
+        const menuLinkText = section.getAttribute('data-nav');
+        const sectionId = section.getAttribute('id');
 
         const navbarItem = createNewNavbarItem(menuLinkText, sectionId);
 
@@ -75,38 +43,45 @@ function buildNavigationBar() {
     navbarList.append(navbarItems);
 }
 
+/**
+ * Sets current section to active, so that it is highlighted and can be distinguished in view
+ */
+function setCurrentSectionToActive() {
+    let currentSectionId;
+    for (const section of sections) {
+        let positionOfSection = section.getBoundingClientRect();
 
-// Add class 'active' to section when near top of viewport
-function setCurrentSectionActive() {
-  let currentSectionId = getCurrentSectionId();
+        if (positionOfSection.y > 0) {
+            currentSectionId = section.id;
+            break;
+        }
+    }
 
-    for (const section of sections){
-        if(section.id === currentSectionId){
-            section.classList.add("active")
-        }else {
-            section.classList.remove("active")
+    for (const section of sections) {
+        if (section.id === currentSectionId) {
+            section.classList.add('active');
+        } else {
+            section.classList.remove('active');
         }
     }
 }
 
-
-// Scroll to anchor ID using scrollTO event
-
-
 /**
- * End Main Functions
- * Begin Events
- *
+ * Events
  */
 
-// Build menu 
-document.addEventListener("DOMContentLoaded", () => {
+/**
+ * Builds navigation bar on DOMContentLoaded event
+ */
+document.addEventListener('DOMContentLoaded', () => {
     buildNavigationBar();
-})
+});
 
-// Set sections as active
-document.addEventListener("scroll", () => {
-    setCurrentSectionActive();
-})
+/**
+ * Changes active section if necessary on scroll
+ */
+document.addEventListener('scroll', () => {
+    setCurrentSectionToActive();
+});
 
 
