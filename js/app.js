@@ -41,6 +41,17 @@ function createNewNavbarItem(text, sectionId) {
     return navbarItem;
 }
 
+function getCurrentSectionId() {
+    let activeSectionId;
+    for (const section of sections) {
+        let positionOfSection = section.getBoundingClientRect();
+
+        if(positionOfSection.y > 0 ){
+            activeSectionId = section.id;
+            return activeSectionId;
+        }
+    }
+}
 /**
  * End Helper Functions
  * Begin Main Functions
@@ -66,6 +77,17 @@ function buildNavigationBar() {
 
 
 // Add class 'active' to section when near top of viewport
+function setCurrentSectionActive() {
+  let currentSectionId = getCurrentSectionId();
+
+    for (const section of sections){
+        if(section.id === currentSectionId){
+            section.classList.add("active")
+        }else {
+            section.classList.remove("active")
+        }
+    }
+}
 
 
 // Scroll to anchor ID using scrollTO event
@@ -82,8 +104,9 @@ document.addEventListener("DOMContentLoaded", () => {
     buildNavigationBar();
 })
 
-// Scroll to section on link click
-
 // Set sections as active
+document.addEventListener("scroll", () => {
+    setCurrentSectionActive();
+})
 
 
