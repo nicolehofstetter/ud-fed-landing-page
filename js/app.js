@@ -12,7 +12,7 @@ const sections = document.getElementsByTagName('section');
  */
 function createNewNavbarItem(text, section) {
     const navbarItem = document.createElement('li');
-    let menuLink = document.createElement('a');
+    const menuLink = document.createElement('a');
     menuLink.classList.add('menu__link');
     menuLink.classList.add(section.id);
     menuLink.innerHTML = text;
@@ -29,10 +29,8 @@ function createNewNavbarItem(text, section) {
  * @param selectors
  */
 function removeActiveFromElementBy(selectors) {
-    let activeMenuLink = document.querySelector(selectors);
-    if (activeMenuLink) {
-        activeMenuLink.classList.remove('active');
-    }
+    const activeMenuLink = document.querySelector(selectors);
+    activeMenuLink && activeMenuLink.classList.remove('active');
 }
 
 /**
@@ -41,9 +39,9 @@ function removeActiveFromElementBy(selectors) {
  */
 function getActiveSection() {
     for (const section of sections) {
-        let sectionBox = section.getBoundingClientRect();
+        const sectionBox = section.getBoundingClientRect();
 
-        if (sectionBox.top > 0) {
+        if (sectionBox.top >= 0) {
             return section;
         }
     }
@@ -74,14 +72,13 @@ function buildNavigationBar() {
 /**
  * Sets current section to active, so that it is highlighted and can be distinguished in view
  */
-function setCurrentSectionToActive() {
+function setSectionToActiveState(currentSection) {
     removeActiveFromElementBy('a.active');
     removeActiveFromElementBy('section.active');
 
-    let currentSection = getActiveSection();
     currentSection.classList.add('active');
 
-    let menuLinkToCurrentSection = document.querySelector('.' + currentSection.id);
+    const menuLinkToCurrentSection = document.querySelector('.' + currentSection.id);
     menuLinkToCurrentSection.classList.add('active');
 }
 
@@ -100,7 +97,8 @@ document.addEventListener('DOMContentLoaded', () => {
  * Changes active section if necessary on scroll
  */
 document.addEventListener('scroll', () => {
-    setCurrentSectionToActive();
+    const activeSection = getActiveSection();
+    setSectionToActiveState(activeSection);
 });
 
 

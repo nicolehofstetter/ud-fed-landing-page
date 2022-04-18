@@ -89,7 +89,8 @@ section {
 }
 
 .navbar__menu a.active {
-    background: #999;
+    background: #333;
+    color: #fff;
 }
 
 /* Header Styles */
