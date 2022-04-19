@@ -18,6 +18,7 @@ function createNewNavbarItem(text, section) {
     menuLink.innerHTML = text;
     menuLink.addEventListener('click', (event) => {
         event.preventDefault();
+        setSectionToActiveState(section);
         section.scrollIntoView({behavior: 'smooth'});
     });
     navbarItem.append(menuLink);
@@ -98,7 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
  */
 document.addEventListener('scroll', () => {
     const activeSection = getActiveSection();
-    setSectionToActiveState(activeSection);
+    activeSection && setSectionToActiveState(activeSection);
 });
 
 
