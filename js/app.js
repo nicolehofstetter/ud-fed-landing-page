@@ -42,7 +42,7 @@ function getActiveSection() {
     for (const section of sections) {
         const sectionBox = section.getBoundingClientRect();
 
-        if (sectionBox.top >= 0) {
+        if (sectionBox.top >= -300 && sectionBox.top <= 1000) {
             return section;
         }
     }
